@@ -1,14 +1,14 @@
-name: Get and commit pathway data
+name: Get and commit updated pathway data
 on:
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron:  '0 * * * *'
+    - cron:  '7 * * * *'
 jobs:
   report:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Get pathway data
+      - name: Get updated pathway data
         run: |
           curl https://api.merakilearn.org/pathways?courseType=json > pathway_data.json
         env:
