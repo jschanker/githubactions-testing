@@ -1,12 +1,15 @@
 # https://stackoverflow.com/a/58393457
 name: Push commit
+on:
+  push
 jobs:
   report:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Make commit with data
-        run: "foo" > report.txt
+        run: |
+          "hey" > report.txt
       - name: Commit report
         run: |
           git config --global user.name 'Your Name'
