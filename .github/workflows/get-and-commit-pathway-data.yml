@@ -2,21 +2,24 @@ name: Get and commit updated pathway data
 on:
   schedule:
     # * is a special character in YAML so you have to quote this string
+    # if [ $statusCode -eq "200" ]; then echo "success"; else echo "failure"; fi
     - cron:  '12 * * * *'
+  push:
 jobs:
   report:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Get updated pathway data
+        id: get_pathway_data
         run: |
-          curl https://api.merakilearn.org/pathways?courseType=json > pathway_data.json
+          statusCode=$(curl https://api.merakilearn.org/pathways?courseType=json -o pathway_data.json -w "%{http_code}")
+          if [ $statusCode -eq "200" ]; then echo "success"; else exit 0; fi
         env:
           MERAKI_URL: https://api.merakilearn.org/pathways
       - name: Commit pathway data
         run: |
-          git config --global user.name 'Pathways Bot'
-          git config --global user.email 'jschanker@users.noreply.github.com'
+          if [[ ${{ steps.get_pathway_data.outputs.status_code -eq "200" }} ]]; then exit 0; fi
           git add pathway_data.json
           git commit -am "Update pathway data"
           git push
