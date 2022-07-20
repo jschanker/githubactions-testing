@@ -10,7 +10,6 @@ jobs:
       - name: Make commit with data
         run: |
           curl https://api.merakilearn.org/pathways?courseType=json > report2.txt
-          echo "hey" > report2.txt
       - name: Commit report
         run: |
           git config --global user.name 'Your Name'
