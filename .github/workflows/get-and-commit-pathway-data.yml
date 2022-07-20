@@ -14,7 +14,7 @@ jobs:
         id: get_pathway_data
         run: |
           statusCode=$(curl https://api.merakilearn.org/pathways?courseType=json -o pathway_data.json -w "%{http_code}")
-          if [ $statusCode -eq "200" ]; then echo "success"; else exit 0; fi
+          if [ $statusCode == "200" ]; then echo "success"; else exit 0; fi
         env:
           MERAKI_URL: https://api.merakilearn.org/pathways
       - name: Commit pathway data
