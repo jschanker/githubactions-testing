@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Make commit with data
         run: |
-          curl ( echo -n const pathwayData = ; curl https://api.merakilearn.org/pathways?courseType=json; echo -n \; ) > pathway_data.js
+          curl ( echo -n const pathwayData = ; curl https://api.merakilearn.org/pathways?courseType=json; echo -n \; ) | cat > pathway_data.js
       - name: Commit pathway data
         run: |
           git config --global user.name 'Your Name'
