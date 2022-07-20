@@ -1,0 +1,15 @@
+# https://stackoverflow.com/a/58393457
+name: Push commit
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Make commit with data
+        run: "foo" > report.txt
+      - name: Commit report
+        run: |
+          git config --global user.name 'Your Name'
+          git config --global user.email 'jschanker@users.noreply.github.com'
+          git commit -am "Testing"
+          git push
