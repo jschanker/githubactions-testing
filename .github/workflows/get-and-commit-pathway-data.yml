@@ -13,16 +13,21 @@ jobs:
       - name: Get updated pathway data
         id: get_pathway_data
         run: |
-          statusCode=$(curl https://api.merakilearn.org/pathways?courseType=json -o pathway_data2.json -w "%{http_code}")
+          statusCode=$(curl $(REACT_APP_MERAKI_URL)/pathways?courseType=json -o pathway_data3.json -w "%{http_code}")
           echo "::set-output name=status_code::$statusCode"
           if [ $statusCode -eq "200" ]; then echo "success"; else exit 0; fi
         env:
-          MERAKI_URL: https://api.merakilearn.org/pathways
+          REACT_APP_MERAKI_URL: https://api.merakilearn.org
       - name: Commit pathway data
         run: |
           if [[ ${{ steps.get_pathway_data.outputs.status_code }} != 200 ]]; then exit 0; fi
-          git config --global user.name 'Pathways Data Bot'
-          git config --global user.email 'jschanker@users.noreply.github.com'
-          git add pathway_data2.json
-          git commit -am "Update pathway data"
-          git push
+          git config --global user.name '$GITHUB_ACTOR'
+          git config --global user.email '${GITHUB_ACTOR}@bots.github.com'
+          git add pathway_data3.json
+          # https://stackoverflow.com/a/25149786 for git status --porcelain
+          if [[ `git status --porcelain` ]]; then
+            git commit -m "Update pathway data on $(data)"
+            git push
+          else
+            echo "No new changes"
+          fi
