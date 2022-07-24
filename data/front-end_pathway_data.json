@@ -53,13 +53,13 @@
     "image": "residential",
     "description": "Explore Navgurukul’s on campus Software Engineering courses",
     "type": "internal",
-    "path": PATHS.RESIDENTIAL_COURSE,
+    "path": "/residential-course",
   },
   {
     "title": "Miscellaneous Courses",
     "image": "misc",
     "description": "Courses on Android, Game dev projects and more",
     "type": "internal",
-    "path": PATHS.MISCELLANEOUS_COURSE,
+    "path": "/open-course",
   },
 ]
