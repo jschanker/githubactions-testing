@@ -37,6 +37,7 @@ jobs:
         id: join_pathway_data
         run: |
           echo "TODO merging..."
+          npm install @actions/core
           node $JOIN_SCRIPT_PATH
       - name: Commit pathway data
         run: |
