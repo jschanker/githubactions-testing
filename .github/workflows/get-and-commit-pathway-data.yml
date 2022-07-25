@@ -26,27 +26,27 @@ jobs:
             # frontEndData=$(cat $FRONT_END_DATA_FILE_PATH)
             # echo "::set-output name=front_end_data::$frontEndData"
             # echo "::set-output name=back_end_data::$backEndData"
-            echo "Successfully retrieved front- and back-end pathway data"
+            echo "Successfully retrieved back-end pathway data"
           else
-            echo "Failed to get back-end data with error $statusCode"
+            echo "Failed to get back-end pathway data with error $statusCode"
             exit 0 
           fi
         env:
-          REACT_APP_MERAKI_URL: https://api.merakilearn.org
+          REACT_APP_MERAKI_URL: https://dev-api.merakilearn.org
       - name: Join back- and front-end pathway data
         id: join_pathway_data
         run: |
-          echo "TODO merging..."
-          npm install @actions/core
-          npm install fs
-          node $JOIN_SCRIPT_PATH $FRONT_END_DATA_FILE_PATH $BACK_END_DATA_FILE_PATH
+          # echo "TODO merging..."
+          # npm install @actions/core
+          # npm install fs - built-in module doesn't need to be installed
+          node $JOIN_SCRIPT_PATH $FRONT_END_DATA_FILE_PATH $BACK_END_DATA_FILE_PATH $JOINED_DATA_FILE_PATH
       - name: Commit pathway data
         run: |
           # echo "OUTPUT: ${{ steps.join_pathway_data.outputs.joined_pathway_data }}"
-          joinedData=${{ steps.join_pathway_data.outputs.joined_pathway_data }}
+          # joinedData=${{ steps.join_pathway_data.outputs.joined_pathway_data }}
           # https://stackoverflow.com/a/49418406
           # printf "%s" "$joinedData" > "$JOINED_DATA_FILE_PATH"
-          echo "$joinedData" > "JOINED_DATA_FILE_PATH"
+          # echo "$joinedData" > "JOINED_DATA_FILE_PATH"
           if [[ ${{ steps.get_pathway_data.outputs.status_code }} != 200 ]]; then exit 0; fi
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
