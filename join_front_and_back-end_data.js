@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-//const axios = require('axios');
+const fs = require('fs');
 
 try {
   // console.log("FE", core.getInput('steps.join_pathway_data.outputs.front_end_data'));
@@ -11,7 +11,10 @@ try {
   const backEndFilePath = process.argv[3];
   
   const frontEndPathwayData = JSON.parse(fs.readFileSync(frontEndFilePath, "utf8")) || [];
-  const backEndFilePathwayData = JSON.parse(fs.readFileSync(backEndFilePath, "utf8"))?.pathways || [];
+  const backEndPathwayData = JSON.parse(fs.readFileSync(backEndFilePath, "utf8"))?.pathways || [];
+  
+  console.log("Front-end pathway data:", frontEndPathwayData);
+  console.log("Back-end pathway data:", backEndPathwayData);
   
   const feCodeToIndexMap = frontEndPathwayData.reduce(
       (codeMap, pathway, index) => {
