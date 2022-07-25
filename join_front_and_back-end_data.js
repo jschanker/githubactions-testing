@@ -1,4 +1,4 @@
-const core = require('@actions/core');
+// const core = require('@actions/core');
 const fs = require('fs');
 
 try {
@@ -9,9 +9,10 @@ try {
   
   const frontEndFilePath = process.argv[2];
   const backEndFilePath = process.argv[3];
+  const joinedFilePath = process.argv[4];
   
-  const frontEndPathwayData = JSON.parse(fs.readFileSync(frontEndFilePath, "utf8")) || [];
-  const backEndPathwayData = JSON.parse(fs.readFileSync(backEndFilePath, "utf8"))?.pathways || [];
+  const frontEndPathwayData = JSON.parse(fs.readFileSync(frontEndFilePath, 'utf8')) || [];
+  const backEndPathwayData = JSON.parse(fs.readFileSync(backEndFilePath, 'utf8'))?.pathways || [];
   
   console.log("Front-end pathway data:", frontEndPathwayData);
   console.log("Back-end pathway data:", backEndPathwayData);
@@ -44,7 +45,9 @@ try {
     },
     frontEndPathwayData
   );
-  core.setOutput('joined_pathway_data', JSON.stringify(backEndPathwayData));
+  // core.setOutput('joined_pathway_data', JSON.stringify(backEndPathwayData));
+  fs.writeFileSync(joinedFilePath, JSON.stringify(backEndPathwayData), 'utf-8');
 } catch (e) {
-  core.setFailed(e.message);
+  // core.setFailed(e.message);
+  throw new Error(e.message); // throwing caught error will happen automatically
 }
