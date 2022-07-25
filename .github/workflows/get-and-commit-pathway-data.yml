@@ -43,10 +43,12 @@ jobs:
       - name: Commit pathway data
         run: |
           # echo "OUTPUT: ${{ steps.join_pathway_data.outputs.joined_pathway_data }}"
+          echo "${{ steps.join_pathway_data.outputs.joined_pathway_data }}" > $JOINED_DATA_FILE_PATH
           if [[ ${{ steps.get_pathway_data.outputs.status_code }} != 200 ]]; then exit 0; fi
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           git add $BACK_END_DATA_FILE_PATH
+          git add $JOINED_DATA_FILE_PATH
           # https://stackoverflow.com/a/25149786 for git status --porcelain
           if [[ `git status --porcelain` ]]; then
             git commit -m "Update pathway data on $(date)"
