@@ -1,14 +1,14 @@
 const core = require('@actions/core');
 const axios = require('axios');
 
-try {
+// try {
   // console.log("FE", core.getInput('steps.join_pathway_data.outputs.front_end_data'));
   // console.log("BE", core.getInput('steps.join_pathway_data.outputs.back_end_data'));
   // const frontEndPathwayData = JSON.parse(core.getInput('front_end_data'));
   // const backEndPathwayData = core.getInput('back_end_data').pathways || [];
   
   const frontEndFilePath = process.argv[2];
-  const backEndFilePath = process.argv[3];
+  const backEndFilePath = process.argv[3]; 
   
   const feResponse = await axios(frontEndFilePath);
   const beResponse = await axios(backEndFilePath);
@@ -45,6 +45,6 @@ try {
     frontEndPathwayData
   );
   core.setOutput('joined_pathway_data', JSON.stringify(joinedPathwayData));
-} catch(e) {
-  core.setFailed(e.message);
-}
+// } catch(e) {
+//  core.setFailed(e.message);
+// }
