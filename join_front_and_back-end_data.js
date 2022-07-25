@@ -29,5 +29,5 @@ try {
   );
   core.setOutput('joined_pathway_data', JSON.stringify(joinedPathwayData));
 } catch(e) {
-  core.setFailed(error.message);
+  core.setFailed(e.message);
 }
