@@ -38,7 +38,7 @@ jobs:
         run: |
           echo "TODO merging..."
           npm install @actions/core
-          npm install axios
+          npm install fs
           node $JOIN_SCRIPT_PATH $FRONT_END_DATA_FILE_PATH $BACK_END_DATA_FILE_PATH
       - name: Commit pathway data
         run: |
