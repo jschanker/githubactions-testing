@@ -52,7 +52,8 @@ jobs:
           git add $BACK_END_DATA_FILE_PATH
           git add $JOINED_DATA_FILE_PATH
           # https://stackoverflow.com/a/25149786 for git status --porcelain
-          if [[ `git status --porcelain` ]]; then
+          # https://git-scm.com/docs/git-status#Documentation/git-status.txt--ultmodegt to ignore untracked files
+          if [[ `git status -uno --porcelain` ]]; then
             git commit -m "Update pathway data on $(date)"
             git push
             echo "Successfully saved pathway data"
