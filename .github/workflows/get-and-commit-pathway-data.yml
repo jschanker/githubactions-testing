@@ -9,7 +9,7 @@ jobs:
   save_updated_data:
     runs-on: ubuntu-latest
     env:
-      FRONT_END_DATA_FILE_PATH: data/fe_pathway_data.json
+      FRONT_END_DATA_FILE_PATH: data/front-end_pathway_data.json
       BACK_END_DATA_FILE_PATH: data/be_pathway_datav40-1.json
       JOINED_DATA_FILE_PATH: data/pathway_datav40.json
       JOIN_SCRIPT_PATH: join_front_and_back-end_data.js 
