@@ -7,9 +7,9 @@
     "description": "Get familiar with programming with bite sized lessons",
     "outcomes": [
       "Get equipped to build small projects like calculator or to-do list",
-      "Get the base knowledge to apply to advanced bootcamps such as Navgurukul or Zoho Schools",
+      "Get the base knowledge to apply to advanced bootcamps such as Navgurukul or Zoho Schools"
     ],
-    "type": "internal",
+    "type": "internal"
   },
   {
     "title": "Typing",
@@ -19,9 +19,9 @@
     "description": "Learn to type with pinpoint accuracy and speed.",
     "outcomes": [
       "Reach a typing speed of up to 30 to 40 words per minute",
-      "Be able to type long text with minimal inaccuracies",
+      "Be able to type long text with minimal inaccuracies"
     ],
-    "type": "internal",
+    "type": "internal"
   },
   {
     "title": "Spoken English",
@@ -32,9 +32,9 @@
     "outcomes": [
       "Start speaking English without fear in about 6 months",
       "Be able to read, write, listen and speak English with fluency",
-      "Be able to give oral presentations, talk to friends and prospective colleagues",
+      "Be able to give oral presentations, talk to friends and prospective colleagues"
     ],
-    "type": "internal",
+    "type": "internal"
   },
   {
     "title": "JavaScript",
@@ -44,22 +44,22 @@
     "description": "Learn the basics of tech that powers the web",
     "outcomes": [
       "Build your first web page and power it with the interactive language of Javascript",
-      "Build your basics of HTML, CSS and Javascript to prepare for advanced web development courses",
+      "Build your basics of HTML, CSS and Javascript to prepare for advanced web development courses"
     ],
-    "type": "internal",
+    "type": "internal"
   },
   {
     "title": "Residential Programmes",
     "image": "residential",
     "description": "Explore Navgurukul’s on campus Software Engineering courses",
     "type": "internal",
-    "path": "/residential-course",
+    "path": "/residential-course"
   },
   {
     "title": "Miscellaneous Courses",
     "image": "misc",
     "description": "Courses on Android, Game dev projects and more",
     "type": "internal",
-    "path": "/open-course",
+    "path": "/open-course"
   },
 ]
