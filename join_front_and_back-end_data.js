@@ -1,8 +1,8 @@
 const core = require('@actions/core');
 
 try {
-  console.log("FE", core.getInput('front_end_data'));
-  console.log("BE", core.getInput('back_end_data'));
+  console.log("FE", core.getInput('steps.join_pathway_data.outputs.front_end_data'));
+  console.log("BE", core.getInput('steps.join_pathway_data.outputs.back_end_data'));
   const frontEndPathwayData = JSON.parse(core.getInput('front_end_data'));
   const backEndPathwayData = core.getInput('back_end_data').pathways || [];
   const feCodeToIndexMap = frontEndPathwayData.reduce(
