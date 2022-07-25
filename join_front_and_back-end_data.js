@@ -1,50 +1,43 @@
 const core = require('@actions/core');
-const axios = require('axios');
+//const axios = require('axios');
 
-// try {
+try {
   // console.log("FE", core.getInput('steps.join_pathway_data.outputs.front_end_data'));
   // console.log("BE", core.getInput('steps.join_pathway_data.outputs.back_end_data'));
   // const frontEndPathwayData = JSON.parse(core.getInput('front_end_data'));
   // const backEndPathwayData = core.getInput('back_end_data').pathways || [];
   
-const frontEndFilePath = process.argv[2];
-const backEndFilePath = process.argv[3];
+  const frontEndFilePath = process.argv[2];
+  const backEndFilePath = process.argv[3];
   
-  // const feResponse = await axios(frontEndFilePath);
-  // const beResponse = await axios(backEndFilePath);
-
-axios(frontEndFilePath).then((feResponse) => {
-  axios(backEndFilePath).then((beResponse) => {
-    if (!feResponse?.data || !beResponse?.data) {
-      core.setFailed('Failed to retrieve front-end or back-end data');
-    } else {
-      const frontEndPathwayData = feResponse.data || [];
-      const backEndPathwayData = beResponse.data.pathways || [];
-      const feCodeToIndexMap = frontEndPathwayData.reduce(
-          (codeMap, pathway, index) => {
-            if (pathway.code) {
-              codeMap[pathway.code] = index;
-            }
-            return codeMap;
-          },
-          {}
-        );
-      const joinedPathwayData = backEndPathwayData.reduce(
-        (pathwayData, pathway) => {
-          const indexOfPathway = feCodeToIndexMap[pathway.code];
-          if (indexOfPathway != undefined) {
-            pathwayData[indexOfPathway] = {
-              ...pathway,
-              ...pathwayData[indexOfPathway],
-            };
-          } else {
-            pathwayData.push(pathway);
-          }
-          return pathwayData;
-        },
-        frontEndPathwayData
-      );
-      core.setOutput('joined_pathway_data', JSON.stringify(joinedPathwayData));        
-    }
-  }).catch((e) => core.setFailed(e.message));
-}).catch((e) => core.setFailed(e.message));
+  const frontEndPathwayData = JSON.parse(fs.readFileSync(frontEndFilePath, "utf8")) || [];
+  const backEndFilePathwayData = JSON.parse(fs.readFileSync(backEndFilePath, "utf8"))?.pathways || [];
+  
+  const feCodeToIndexMap = frontEndPathwayData.reduce(
+      (codeMap, pathway, index) => {
+        if (pathway.code) {
+          codeMap[pathway.code] = index;
+        }
+        return codeMap;
+      },
+      {}
+    );
+  const joinedPathwayData = backEndPathwayData.reduce(
+    (pathwayData, pathway) => {
+      const indexOfPathway = feCodeToIndexMap[pathway.code];
+      if (indexOfPathway != undefined) {
+        pathwayData[indexOfPathway] = {
+          ...pathway,
+          ...pathwayData[indexOfPathway],
+        };
+      } else {
+        pathwayData.push(pathway);
+      }
+      return pathwayData;
+    },
+    frontEndPathwayData
+  );
+  core.setOutput('joined_pathway_data', JSON.stringify(joinedPathwayData));
+} catch (e) {
+  core.setFailed(e.message);
+}
