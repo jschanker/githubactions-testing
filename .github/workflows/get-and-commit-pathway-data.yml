@@ -6,28 +6,44 @@ on:
     - cron:  '12 * * * *'
   push:
 jobs:
-  report:
+  save_updated_data:
     runs-on: ubuntu-latest
+    env:
+      FRONT_END_DATA_FILE_PATH: data/fe_pathway_data.json
+      BACK_END_DATA_FILE_PATH: data/be_pathway_datav40-1.json
     steps:
       - uses: actions/checkout@v3
-      - name: Get updated pathway data
+      - name: Get and store updated back-end pathway data
         id: get_pathway_data
         run: |
-          statusCode=$(curl $REACT_APP_MERAKI_URL/pathways?courseType=json -H "version-code: 40" -o data/pathway_datav40.json -w "%{http_code}")
+          statusCode=$(curl $REACT_APP_MERAKI_URL/pathways?courseType=json -H "version-code: 40" -o $BACK_END_DATA_FILE_PATH -w "%{http_code}")
           echo "::set-output name=status_code::$statusCode"
-          if [ $statusCode -eq "200" ]; then echo "success"; else exit 0; fi
+          if [ $statusCode -eq "200" ]; then
+            echo "::set-output name=status_code::$statusCode"
+            backEndData=$(cat $BACK_END_DATA_FILE_PATH)
+            echo "::set-output name=back_end_data::$backEndData"
+            echo "Successfully retrieved back-end pathway data"
+          else
+            echo "Failed to get back-end data with error $statusCode"
+            exit 0 
+          fi
         env:
           REACT_APP_MERAKI_URL: https://api.merakilearn.org
+      - name: Merge back- and front-end pathway data
+        id: merge_pathway_data
+        run: |
+          echo "TODO merging..."
       - name: Commit pathway data
         run: |
           if [[ ${{ steps.get_pathway_data.outputs.status_code }} != 200 ]]; then exit 0; fi
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
-          git add data/pathway_datav40.json
+          git add $BACK_END_DATA_FILE_PATH
           # https://stackoverflow.com/a/25149786 for git status --porcelain
           if [[ `git status --porcelain` ]]; then
             git commit -m "Update pathway data on $(date)"
             git push
+            echo "Successfully saved pathway data"
           else
             echo "No new changes"
           fi
