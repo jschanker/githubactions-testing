@@ -43,7 +43,8 @@ jobs:
       - name: Commit pathway data
         run: |
           # echo "OUTPUT: ${{ steps.join_pathway_data.outputs.joined_pathway_data }}"
-          echo '${{ steps.join_pathway_data.outputs.joined_pathway_data }}' > $JOINED_DATA_FILE_PATH
+          # https://stackoverflow.com/a/49418406
+          printf "%s" "${{ steps.join_pathway_data.outputs.joined_pathway_data }}" > "$JOINED_DATA_FILE_PATH"
           if [[ ${{ steps.get_pathway_data.outputs.status_code }} != 200 ]]; then exit 0; fi
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
