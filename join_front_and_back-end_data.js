@@ -12,7 +12,8 @@ try {
   const joinedFilePath = process.argv[4];
   
   const frontEndPathwayData = JSON.parse(fs.readFileSync(frontEndFilePath, 'utf8')) || [];
-  const backEndPathwayData = JSON.parse(fs.readFileSync(backEndFilePath, 'utf8'))?.pathways || [];
+  const backEndData = JSON.parse(fs.readFileSync(backEndFilePath, 'utf8'));
+  const backEndPathwayData = backEndData?.pathways || [];
   
   console.log("Front-end pathway data:", frontEndPathwayData);
   console.log("Back-end pathway data:", backEndPathwayData);
@@ -30,7 +31,7 @@ try {
       },
       {}
     );
-  backEndPathwayData.pathways = backEndPathwayData.reduce(
+  backEndData.pathways = backEndPathwayData.reduce(
     (pathwayData, pathway) => {
       const indexOfPathway = feCodeToIndexMap[pathway.code];
       if (indexOfPathway != undefined) {
@@ -46,7 +47,7 @@ try {
     frontEndPathwayData
   );
   // core.setOutput('joined_pathway_data', JSON.stringify(backEndPathwayData));
-  fs.writeFileSync(joinedFilePath, JSON.stringify(backEndPathwayData), 'utf-8');
+  fs.writeFileSync(joinedFilePath, JSON.stringify(backEndData), 'utf-8');
 } catch (e) {
   // core.setFailed(e.message);
   throw new Error(e.message); // throwing caught error will happen automatically
