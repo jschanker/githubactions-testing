@@ -16,6 +16,10 @@ try {
   console.log("Front-end pathway data:", frontEndPathwayData);
   console.log("Back-end pathway data:", backEndPathwayData);
   
+  if (backEndPathwayData.length === 0) {
+    throw new Error("Back-end pathway data is empty.");
+  }
+  
   const feCodeToIndexMap = frontEndPathwayData.reduce(
       (codeMap, pathway, index) => {
         if (pathway.code) {
@@ -25,7 +29,7 @@ try {
       },
       {}
     );
-  const joinedPathwayData = backEndPathwayData.reduce(
+  backEndPathwayData.pathways = backEndPathwayData.reduce(
     (pathwayData, pathway) => {
       const indexOfPathway = feCodeToIndexMap[pathway.code];
       if (indexOfPathway != undefined) {
@@ -40,7 +44,7 @@ try {
     },
     frontEndPathwayData
   );
-  core.setOutput('joined_pathway_data', JSON.stringify(joinedPathwayData));
+  core.setOutput('joined_pathway_data', JSON.stringify(backEndPathwayData));
 } catch (e) {
   core.setFailed(e.message);
 }
