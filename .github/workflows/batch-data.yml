@@ -16,7 +16,7 @@ jobs:
       - name: Get and store updated class data starting from past week
         id: get_class_data
         run: |
-          $startTime=$(node -e "new Date(new Date().valueOf() - 7*24*60*60*1000).valueOf()")
+          startTime=$(node -e "new Date(new Date().valueOf() - 7*24*60*60*1000).valueOf()")
           echo "Getting classes starting from $time"
           statusCode=$(curl $REACT_APP_MERAKI_URL/classes/all?startDate=$startTime -H "Authorization: $class_auth_key" -o $CLASS_DATA_FILE_PATH -w "%{http_code}")
           echo "::set-output name=status_code::$statusCode"
