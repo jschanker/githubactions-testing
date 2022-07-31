@@ -14,8 +14,8 @@ if (classesStartingFromLastWeek.length === 0) {
 //  have met prior to now.
 
 const pathwayUpcomingBatches = {};
-// map from recurring ids to the last class with that id
-const recurringIdToLastClassMap = new Map();
+// map from recurring ids to the end (or start) time of the last class with that id
+const recurringIdToLastClassTimeMap = new Map();
 
 classesStartingFromLastWeek.forEach((c) => {
   // map old to new pathway for Python (fix, very hacky)
@@ -23,18 +23,18 @@ classesStartingFromLastWeek.forEach((c) => {
     c.pathway_v2 || { 39: 1 }[c.pathway_v1] || c.pathway_v1 || c.pathway_id;
   if (c.recurring_id && cPathwayId) {
     pathwayUpcomingBatches[cPathwayId] ||= [];
-    if (!recurringIdToLastClassMap.has(c.recurring_id)) {
-      const latestTime = c.end_time || c.start_time;
-      new Date(c.end_time || c.start_time) > new Date() &&
+    const latestTime = c.end_time || c.start_time;
+    if (!recurringIdToLastClassTimeMap.has(c.recurring_id)) {
+      new Date(latestTime) > new Date() &&
         pathwayUpcomingBatches[cPathwayId].push(latestTime);
     }
-    recurringIdToLastClassMap.set(c.recurring_id, c);
+    recurringIdToLastClassTimeMap.set(c.recurring_id, c);
   }
 });
 
 Object.values(pathwayUpcomingBatches).forEach((upcomingBatches) =>
   upcomingBatches.forEach(
-    (c) => (c.end_batch_time = recurringIdToLastClassMap.get(c.recurring_id))
+    (c) => (c.end_batch_time = recurringIdToLastClassTimeMap.get(c.recurring_id))
   )
 );
 
