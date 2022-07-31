@@ -10,7 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       class_auth_key: ${{ secrets.CLASS_API_TOKEN }}
+      UPCOMING_BATCH_SCRIPT_FILE_PATH: "get-upcoming-batches-from-classes.js"
       CLASS_DATA_FILE_PATH: "data/classes-past-week.json"
+      UPCOMING_BATCH_OUTPUT_FILE_PATH: "data/upcoming-batches.json"
     steps:
       - uses: actions/checkout@v3
       - name: Get and store updated class data starting from past week
@@ -31,28 +33,23 @@ jobs:
       - name: Get and store upcoming batch data
         id: batch_data
         run: |
-          echo "TODO..."
+          # echo "TODO..."
           # npm install @actions/core
           # npm install fs - built-in module doesn't need to be installed
-          # node $JOIN_SCRIPT_PATH $FRONT_END_DATA_FILE_PATH $BACK_END_DATA_FILE_PATH $JOINED_DATA_FILE_PATH
+          node $UPCOMING_BATCH_SCRIPT_FILE_PATH $CLASS_DATA_FILE_PATH $UPCOMING_BATCH_OUTPUT_FILE_PATH
       - name: Commit batch data
         run: |
-          # echo "OUTPUT: ${{ steps.join_pathway_data.outputs.joined_pathway_data }}"
-          # joinedData=${{ steps.join_pathway_data.outputs.joined_pathway_data }}
-          # https://stackoverflow.com/a/49418406
-          # printf "%s" "$joinedData" > "$JOINED_DATA_FILE_PATH"
-          # echo "$joinedData" > "JOINED_DATA_FILE_PATH"
           if [[ ${{ steps.get_class_data.outputs.status_code }} != 200 ]]; then exit 0; fi
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           git add $CLASS_DATA_FILE_PATH
-          # git add $JOINED_DATA_FILE_PATH
+          git add $UPCOMING_BATCH_OUTPUT_FILE_PATH
           # https://stackoverflow.com/a/25149786 for git status --porcelain
           # https://git-scm.com/docs/git-status#Documentation/git-status.txt--ultmodegt to ignore untracked files
           if [[ `git status -uno --porcelain` ]]; then
             git commit -m "Updated class data on $(date)"
             git push
-            echo "Successfully saved class data"
+            echo "Successfully saved class data and upcoming batches"
           else
             echo "No new changes"
           fi
