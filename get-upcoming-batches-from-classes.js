@@ -12,22 +12,23 @@ if (classesStartingFromLastWeek.length === 0) {
 //  In that case, upcoming batches are batches for which no classes starting from 1 week ago 
 //  have met prior to now.
 
-// map from recurring ids to the last class with that id 
+const pathwayUpcomingBatches = {};
+// map from recurring ids to the last class with that id
 const recurringIdToLastClassMap = new Map();
-const upcomingBatchClasses = [];
-const pathwayId = 1; // get from file
-    
+
 classesStartingFromLastWeek.forEach(c => {
   // map old to new pathway for Python (fix, very hacky)
   const cPathwayId = c.pathway_v2 || ({"39": 1})[c.pathway_v1] || c.pathway_v1 || c.pathway_id;
-  if (c.recurring_id && cPathwayId == pathwayId) {
+  if (c.recurring_id && cPathwayId) {
+    pathwayUpcomingBatches[cPathwayId] ||= [];
     if (!recurringIdToLastClassMap.has(c.recurring_id)) {
-      new Date(c.end_time || c.start_time) > new Date() && upcomingBatchClasses.push(c);
+      new Date(c.end_time || c.start_time) > new Date() && pathwayUpcomingBatches[cPathwayId].push(c);
     }
     recurringIdToLastClassMap.set(c.recurring_id, c);
   }
 });
 
-upcomingBatchClasses.forEach((c, index) => upcomingBatchClasses[index].end_batch_time = recurringIdToLastClassMap.get(upcomingBatchClasses[index].recurring_id));
+Object.values(pathwayUpcomingBatches).forEach((upcomingBatches) =>
+  upcomingBatches.forEach((c) => c.end_batch_time = recurringIdToLastClassMap.get(c.recurring_id));
 
-fs.writeFileSync(batchOutputFilePath, JSON.stringify(upcomingBatchClasses), 'utf-8');
+fs.writeFileSync(batchOutputFilePath, JSON.stringify(pathwayUpcomingBatches), 'utf-8');
