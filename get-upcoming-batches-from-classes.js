@@ -24,8 +24,9 @@ classesStartingFromLastWeek.forEach((c) => {
   if (c.recurring_id && cPathwayId) {
     pathwayUpcomingBatches[cPathwayId] ||= [];
     if (!recurringIdToLastClassMap.has(c.recurring_id)) {
+      const latestTime = c.end_time || c.start_time;
       new Date(c.end_time || c.start_time) > new Date() &&
-        pathwayUpcomingBatches[cPathwayId].push(c);
+        pathwayUpcomingBatches[cPathwayId].push(latestTime);
     }
     recurringIdToLastClassMap.set(c.recurring_id, c);
   }
