@@ -28,6 +28,6 @@ classesStartingFromLastWeek.forEach(c => {
   }
 });
 
-upcomingBatchClasses.forEach((c, index) => upcomingBatchClasses[index].end_batch_time = recurringIdToLastClassMap.get(upcomingBatchClasses[index].recurring_id);
+upcomingBatchClasses.forEach((c, index) => upcomingBatchClasses[index].end_batch_time = recurringIdToLastClassMap.get(upcomingBatchClasses[index].recurring_id));
 
 fs.writeFileSync(batchOutputFilePath, JSON.stringify(upcomingBatchClasses), 'utf-8');
