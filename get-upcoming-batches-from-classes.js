@@ -56,7 +56,7 @@ partnerIdToPathwaysUpcomingBatchesMap.forEach((pathwaysUpcomingBatches, partnerI
     partnerId +
     extension;
   fs.writeFile(
-    batchOutputFilePath,
+    batchesOutputFilePath,
     JSON.stringify(pathwaysUpcomingBatches),
     'utf-8'
   );
