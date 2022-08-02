@@ -61,9 +61,9 @@ partnerIdToPathwaysUpcomingBatchesMap.forEach((pathwaysUpcomingBatches, partnerI
     'utf-8',
     (err) => {
       if (err) {
-        console.log("Error writing batches for partner with id " + partnerId);
+        console.log("Error writing batches for partner with id " + partnerId + " to " + batchesOutputFilePath);
       } else {
-        console.log("Successfully wrote batches for partner with id " + partnerId);
+        console.log("Successfully wrote batches for partner with id " + partnerId + " to " + batchesOutputFilePath);
       }
     }
   );
