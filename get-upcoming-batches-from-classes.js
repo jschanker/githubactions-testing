@@ -49,7 +49,7 @@ partnerIdToPathwaysUpcomingBatchesMap.forEach((pathwaysUpcomingBatches) => {
 
 partnerIdToPathwaysUpcomingBatchesMap.forEach((pathwaysUpcomingBatches, partnerId) => {
   // maybe allow other extensions in the future
-  const extension = batchOutputFilePath.match(/.json$|.txt$|.html$/)?.[0] || "";
+  const extension = batchOutputFilePathPrefix.match(/.json$|.txt$|.html$/)?.[0] || "";
   const batchesOutputFilePath =
     batchOutputFilePathPrefix.substring(0, batchOutputFilePathPrefix.length - extension.length) +
     "_" +
