@@ -58,6 +58,13 @@ partnerIdToPathwaysUpcomingBatchesMap.forEach((pathwaysUpcomingBatches, partnerI
   fs.writeFile(
     batchesOutputFilePath,
     JSON.stringify(pathwaysUpcomingBatches),
-    'utf-8'
+    'utf-8',
+    (err) => {
+      if (err) {
+        console.log("Error writing batches for partner with id " + partnerId);
+      } else {
+        console.log("Successfully wrote batches for partner with id " + partnerId);
+      }
+    }
   );
 });
