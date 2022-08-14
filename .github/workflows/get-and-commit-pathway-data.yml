@@ -20,8 +20,9 @@ jobs:
       - name: Get and store updated back-end pathway data
         id: get_pathway_data
         run: |
-          echo $(git branch --show-current)
+          echo "CURRENT BRANCH $(git branch --show-current) |"
           REACT_APP_MERAKI_URL=$(if [$(git branch --show-current) = dev]; then echo $REACT_APP_MERAKI_DEV_URL; else echo $REACT_APP_MERAKI_DEV_URL; fi) 
+          echo "USING $REACT_APP_MERAKI_URL"
           statusCode=$(curl $REACT_APP_MERAKI_URL/pathways?courseType=json -H "version-code: 40" -o $BACK_END_DATA_FILE_PATH -w "%{http_code}")
           echo "::set-output name=status_code::$statusCode"
           if [ $statusCode -eq "200" ]; then
