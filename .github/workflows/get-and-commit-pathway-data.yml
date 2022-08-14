@@ -4,7 +4,9 @@ on:
     # * is a special character in YAML so you have to quote this string
     # if [ $statusCode -eq "200" ]; then echo "success"; else echo "failure"; fi
     - cron:  '12 * * * *'
-  # push:
+  push:
+    branches:
+      [dev]
 jobs:
   save_updated_data:
     runs-on: ubuntu-latest
