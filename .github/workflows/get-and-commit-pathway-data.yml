@@ -3,7 +3,7 @@ on:
   schedule:
     # * is a special character in YAML so you have to quote this string
     # if [ $statusCode -eq "200" ]; then echo "success"; else echo "failure"; fi
-    - cron:  '12 * * * *'
+    - cron:  '45 * * * *'
   push:
     branches:
       [dev]
