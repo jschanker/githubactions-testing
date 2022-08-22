@@ -26,7 +26,7 @@ async function getCourseData() {
   const body = `------FormBoundary\nContent-Disposition: form-data; name="__EVENTTARGET"\n\npg0$V$ltrNav\n------FormBoundary\nContent-Disposition: form-data; name="__EVENTARGUMENT"\n\n${page}\n------FormBoundary\nContent-Disposition: form-data; name="___BrowserRefresh"\n\n${browserRefreshKey}\n------FormBoundary\nContent-Disposition: form-data; name="__VIEWSTATE"\n\n${viewState}\n------FormBoundary\nContent-Disposition: form-data; name="__VIEWSTATEGENERATOR"\n\n${viewStateGenerator}\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$ddlTerm"\n\n2022;FA\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$ddlDept"\n\n\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$ddlCourseFrom"\n\n\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$ddlCourseTo"\n\n\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$ddlTitleRestrictor"\n\nBeginsWith\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$txtTitleRestrictor"\n\n\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$ddlCourseRestrictor"\n\nBeginsWith\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$txtCourseRestrictor"\n\n\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$ddlDivision"\n\n\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$ddlMethod"\n\n\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$ddlTimeFrom"\n\n\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$ddlTimeTo"\n\n\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$days"\n\nrdAnyDay\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$ddlFaculty"\n\n\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$ddlCampus"\n\n\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$ddlBuilding"\n\n\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$ddlSecStatus"\n\nOpenFull\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$txtMin"\n\n\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$txtMax"\n\n\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$hiddenCache"\n\nfalse\n------FormBoundary\nContent-Disposition: form-data; name="pg0$V$btnSearch"\n\nSearch\n------FormBoundary--`;
   */
   try {
-    const tryRepeat = 500;
+    const tryRepeat = 1000;
     const results = [];
     let page = "";
     let headings = [];
@@ -65,7 +65,7 @@ async function getCourseData() {
           //)
         });
         results.push(...pageResults);
-        page = (page + 1) || 1;
+        page = (parseInt(page) + 1) || 1;
         if (!root.querySelector('.letterNavigator')?.innerText?.toLowerCase().includes('next')) {
           break;
         }
